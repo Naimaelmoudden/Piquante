@@ -1,7 +1,7 @@
-const  {User}  = require("../server")
+const  {User}  = require("../mongo")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-
+//function async pour créer un user//
 async function createUser(req, res) {
   try {
     const { email, password } = req.body
@@ -10,38 +10,39 @@ async function createUser(req, res) {
     await user.save()
     res.status(201).send({ message: "Utilisateur enregistré !" })
   } catch (err) {
-    res.status(409).send({ message: "User pas enregistré :" + err })
+    res.status(409).send({ message: "Utilisateur pas enregistré :" + err })
   }
 }
-  
+  //hacher le mots de passe//
 function hashPassword(password) {
   const saltRounds = 10
   return bcrypt.hash(password, saltRounds)
 }
   
  async function loginUser(req, res) {
-try{ 
+  try{ 
   
-      const email = req.body.email
-      const password = req.body.password
-       const user = await User.findOne({ email: email })
-  
-       const passwordValid = await bcrypt.compare(password, user.password)
+    const email = req.body.email
+    const password = req.body.password
+    const user = await User.findOne({ email: email })
 
-       if (!passwordValid) {
-         res.status(403).send({ message: "Mot de passe incorrect" })
-       }
-      const token = createToken(email)
-      res.status(200).send({ userId: user?._id, token: token })
-      } catch (err) {
-        console.error(err)
-        res.status(500).send({ message: "Erreur interne" })
-      }  
-          } 
-          function createToken(email) {
-            const jwtPassword = process.env.JWT_PASSWORD
-            return jwt.sign({ email: email }, jwtPassword, { expiresIn: "24h" })
-          }
+    const passwordValid = await bcrypt.compare(password, user.password)
+
+    if (!passwordValid) {
+      res.status(403).send({ message: "Mot de passe incorrect" })
+  }
+    const token = createToken(email)
+    res.status(200).send({ userId: user?._id, token: token })
+  } catch (err) {
+      console.error(err)
+      res.status(500).send({ message: "Erreur interne" })
+  }  
+} 
+  function createToken(email) {
+
+    const jwtPassword = process.env.JWT_PASSWORD
+    return jwt.sign({ email: email }, jwtPassword, { expiresIn: "24h" })
+}
   module.exports = { createUser, loginUser }
 
 
