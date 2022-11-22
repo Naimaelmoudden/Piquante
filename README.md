@@ -48,7 +48,7 @@ Dans le dossier 📁 frontend
 Pour avoir accès au serveur de développement : run npm start ou  (Rendez-vous sur http://localhost:4200/)
 Dans le dossier 📁 backend
 
-Lancer le serveur : nodemon server
+Lancer le serveur : nodemon server.js
 
 ## 📦 Made with
 Javascript
