@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const uniqueValidator = require("mongoose-unique-validator")
 // Connexion à la base de données
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}@cluster0.fz7efkg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,  { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}@cluster0.kr0ci94.mongodb.net/?retryWrites=true&w=majority`,  { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() =>   {
     console.log('Connexion à MongoDB réussie');
   })
